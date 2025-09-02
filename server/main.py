@@ -1,0 +1,26 @@
+import uvicorn
+from fastapi import FastAPI
+
+# 절대 경로 임포트로 수정
+from routers import workflow, survey
+
+# 데이터베이스 초기화를 위한 임포트 추가
+from db.database import create_all_tables
+
+# 데이터베이스 초기화
+create_all_tables()
+
+# FastAPI 인스턴스 생성
+app = FastAPI(
+    title="Debate Arena API",
+    description="AI Debate Arena 서비스를 위한 API",
+    version="0.1.0",
+)
+
+# router 추가
+app.include_router(workflow.router)
+app.include_router(survey.router)
+
+# 실행은 server 경로에서
+# . venv/bin/activate
+# uvicorn main:app --port=8001
